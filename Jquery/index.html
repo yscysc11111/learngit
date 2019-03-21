@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>jquery练习</title>
+    <script src="js/jquery-1.12.1.js"></script>
+
+</head>
+
+<body>
+<div id="dv"></div>
+</body>
+<script>
+
+  function object(o){
+      function F(){}
+      F.prototype=o;
+      return new F();
+  }
+  function careteAnother(original){
+      var clone=object(original);
+      clone.sayHi=function(){
+        alert("hi");
+      };
+      return clone;
+  }
+
+    var person={"name":"Nicholas",
+                    "friend":["Shiebly","Bob"],
+                sayName1 :function(){
+                    alert(this.name);
+                }};
+    var person1=object(person);
+    person1.friend.push("GRee");
+    console.log((person1.friend));
+    var person2=object(person);
+    person2.friend.unshift("GRee");
+    console.log((person1.friend));
+  console.log((person.friend));
+    person3=careteAnother(person);
+  person3.friend.push("dfDD");
+
+  console.log((person3.friend));
+
+    function SuperType(name){
+        this.name=name;
+        this.colors=["red", "blue", "green"];
+    }
+    SuperType.prototype.sayName=function(){
+      alert(this.name);
+    };
+    function SubType(name,age){
+        SuperType.call(this,name);
+        this.age=age;
+
+    }
+  function inheri(subType,superType){
+      var proptotype=object(superType.prototype);
+      proptotype.constructor=subType;
+      subType.prototype=proptotype
+  }
+
+  SubType.prototype=new SuperType();
+  SubType.prototype.constructor=SubType;
+//  inheri(SubType,SuperType);
+  SubType.prototype.sayAge=function(){
+      alert(this.age);
+  };
+
+    instance1=new SubType("Ni",12);
+
+    var key1=Object.getOwnPropertyNames(SubType.prototype);
+  var key2=Object.keys(instance1);
+
+
+
+
+</script>
+</html>
